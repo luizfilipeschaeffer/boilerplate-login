@@ -1,45 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Users } from "lucide-react"
-import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
 import { Metadata } from "next"
+import { getUsers } from "@/lib/auth-utils"
 
 export const metadata: Metadata = {
   title: "Dashboard",
 };
 
-async function getTotalUsers(token: string): Promise<number> {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const res = await fetch(`${baseUrl}/api/users`, {
-      headers: {
-        'Cookie': `auth_token=${token}`
-      },
-      cache: 'no-store', // Garante que os dados sejam sempre frescos
-    });
-
-    if (!res.ok) {
-      console.error("Falha ao buscar usuários na dashboard:", res.statusText);
-      return 0;
-    }
-
-    const users = await res.json();
-    return users.length || 0;
-  } catch (error) {
-    console.error("Erro de conexão ao buscar usuários:", error);
-    return 0;
-  }
-}
-
 export default async function DashboardPage() {
-  // Verifica autenticação no lado do servidor
-  const cookieStore = await cookies();
-  const token = cookieStore.get("auth_token")?.value;
-  if (!token) {
-    redirect("/login");
-  }
-
-  const totalUsuarios = await getTotalUsers(token);
+  // A função getUsers já faz a verificação de token internamente
+  const users = await getUsers();
+  const totalUsuarios = users.length;
 
   return (
     <div className="space-y-4">
