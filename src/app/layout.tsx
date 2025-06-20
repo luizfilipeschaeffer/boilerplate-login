@@ -7,7 +7,6 @@ import { defaultMetadata } from "./metadata";
 import { RootProvider } from "@/components/root-provider";
 import { NotificationPoller } from "@/components/notification-poller";
 import { Suspense } from "react";
-import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,8 +23,11 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body className={inter.className}>
-        <NextTopLoader />
-        {/* Envolva o RootProvider com Suspense */}
+        {/* Envolva o NextTopLoader com seu próprio Suspense */}
+        <Suspense fallback={null}>
+          <NextTopLoader />
+        </Suspense>
+        
         <Suspense fallback={null}>
           <RootProvider>
             <NotificationPoller />
@@ -33,7 +35,6 @@ export default function RootLayout({
             <Toaster />
           </RootProvider>
         </Suspense>
-        <Analytics />
       </body>
     </html>
   );
