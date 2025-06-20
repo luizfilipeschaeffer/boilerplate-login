@@ -2,7 +2,7 @@
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fluizfilipeschaeffer%2Fboilerplate-login)
 
-**Link do Projeto:** [https://boilerplate-login-alpha.vercel.app/](https://boilerplate-login-alpha.vercel.app/)
+**Link do Projeto:** [https://boilerplate-login.vercel.app/](https://boilerplate-login.vercel.app/)
 
 Este é um template de projeto Next.js robusto, projetado para servir como uma base sólida e escalável para futuras aplicações web. O objetivo é eliminar o trabalho repetitivo de configuração inicial e fornecer um conjunto de funcionalidades essenciais prontas para uso.
 
