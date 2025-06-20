@@ -10,8 +10,11 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const fromEmail = 'nao-responda@luizfilipeschaeffer.dev';
 
 function validateInternationalPhone(phone: string) {
-    const regex = /^\+[1-9]{1}[0-9]{0,2} \d{2} \d{4,5}-\d{4}$/;
-    return regex.test(phone);
+    // Remove common formatting characters like spaces, hyphens, and parentheses
+    const cleanedPhone = phone.replace(/[\s-()]/g, '');
+    // Regex for international numbers: must start with +, followed by 7 to 15 digits.
+    const regex = /^\+\d{7,15}$/;
+    return regex.test(cleanedPhone);
 }
 
 export async function POST(req: Request) {
