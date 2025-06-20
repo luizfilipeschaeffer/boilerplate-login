@@ -6,6 +6,7 @@ import NextTopLoader from "@/components/ui/next-top-loader";
 import { defaultMetadata } from "./metadata";
 import { RootProvider } from "@/components/root-provider";
 import { NotificationPoller } from "@/components/notification-poller";
+import { Suspense } from "react"; // Adicionar esta linha
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <NextTopLoader />
         <RootProvider>
-          <NotificationPoller />
+          {/* Adicionar a tag Suspense aqui */}
+          <Suspense fallback={null}>
+            <NotificationPoller />
+          </Suspense>
           {children}
           <Toaster />
         </RootProvider>
