@@ -23,7 +23,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { Home, Users, Settings, BarChart3, FileText, User, LogOut, ChevronUp } from "lucide-react"
+import { Home, Users, User, LogOut, ChevronUp } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useTheme } from "@/app/providers"
