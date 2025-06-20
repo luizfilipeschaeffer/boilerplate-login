@@ -7,6 +7,7 @@ import { defaultMetadata } from "./metadata";
 import { RootProvider } from "@/components/root-provider";
 import { NotificationPoller } from "@/components/notification-poller";
 import { Suspense } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,6 +36,7 @@ export default function RootLayout({
             <Toaster />
           </RootProvider>
         </Suspense>
+        <SpeedInsights />
       </body>
     </html>
   );
