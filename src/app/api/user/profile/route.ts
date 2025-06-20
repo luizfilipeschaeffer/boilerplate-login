@@ -36,7 +36,7 @@ export async function GET() {
 }
 
 function validateInternationalPhone(phone: string) {
-    const regex = /^\+[1-9]{1}[0-9]{0,2} \d{2} \d{4,5}-\d{4}$/;
+    const regex = /^\+[1-9]{1}[0-9]{0,2} ?\(?\d{2}\)? ?\d{4,5}-?\d{4}$/;
     return regex.test(phone);
 }
 
