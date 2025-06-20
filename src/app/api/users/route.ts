@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { pool } from '@/lib/db';
-import { headers, cookies } from 'next/headers';
+import { headers } from 'next/headers';
 import { getUserIdFromHeaders } from "@/lib/auth-utils";
 
 export async function GET() {
