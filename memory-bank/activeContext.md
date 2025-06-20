@@ -2,13 +2,12 @@
 
 ## Foco Atual
 
-**Nenhum.** O plano de trabalho definido inicialmente para a estruturação do boilerplate foi concluído.
+**Implementação de Permissão de Exclusão de Usuário.**
 
-O projeto está agora em um estado estável, servindo como um template robusto para futuras aplicações.
+Foi adicionada uma nova funcionalidade que restringe a capacidade de um usuário excluir outros. Por padrão, um usuário só pode excluir a própria conta.
 
-## Próximos Passos Sugeridos
+Essa funcionalidade é controlada pela variável de ambiente `CAN_DELETE_OTHER_USERS`.
 
-Consulte a seção "O que Falta Construir" no arquivo `progress.md` para ideias sobre as próximas funcionalidades a serem desenvolvidas, como:
--   Sistema de permissões (Roles).
--   Integração com um serviço de e-mail real.
--   Adição de uma suíte de testes. 
+## Próximos Passos
+
+O projeto está novamente em um estado estável. Consulte a seção "O que Falta Construir" no arquivo `progress.md` para ideias sobre as próximas funcionalidades. 

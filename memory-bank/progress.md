@@ -12,10 +12,14 @@
     -   Upload e atualização da foto de perfil (via Vercel Blob).
 -   **Dashboard:**
     -   Página de gerenciamento para listar todos os usuários.
+    -   **Gerenciamento de Usuários (Dashboard):**
+    -   Página para listar todos os usuários.
+    -   Permissão para que um usuário possa excluir a própria conta.
+    -   Permissão para excluir outros usuários controlada pela variável de ambiente `CAN_DELETE_OTHER_USERS`.
 
 ## O que Falta Construir (Backlog Sugerido)
 
--   **Sistema de Roles/Permissões:** Implementar uma coluna `role` na tabela `users` (ex: `admin`, `user`) e proteger rotas de API (como a listagem de usuários) com base nessa role.
+-   **Sistema de Roles/Permissões (Avançado):** Implementar uma coluna `role` na tabela `users` (ex: `admin`, `user`) e proteger rotas de API com base nessa role.
 -   **Envio Real de E-mails:** Substituir os `console.log` por um serviço de e-mail transacional real (ex: Resend, SendGrid).
 -   **Testes:** Adicionar testes unitários e de integração (ex: com Jest e React Testing Library).
 
@@ -31,5 +35,8 @@
     -   [x] Implementação do fluxo de recuperação de senha.
     -   [x] Criação da tela de listagem de usuários.
 -   **Fase 4: Finalização e Documentação** - ✅
+    -   **Fase 4: Implementação de Permissões** - ✅
+    -   [x] Adicionada regra de negócio para exclusão de usuários.
+    -   **Fase 5: Finalização e Documentação** - ✅
     -   [x] Atualização do `README.md`.
     -   [x] Revisão final do `memory-bank`. 
