@@ -1,194 +1,91 @@
-# Boilerplate Next.js + Express na Netlify
+# Boilerplate Next.js - Template Acelerador de Projetos
 
-Este é um projeto que combina um frontend Next.js com um backend Express, deployado na Netlify e utilizando um banco de dados PostgreSQL externo.
+Este é um template de projeto Next.js robusto, projetado para servir como uma base sólida e escalável para futuras aplicações web. O objetivo é eliminar o trabalho repetitivo de configuração inicial e fornecer um conjunto de funcionalidades essenciais prontas para uso.
 
-## 📋 Pré-requisitos
+## ✨ Recursos Inclusos
 
-- Node.js 18.14.0 ou superior
-- Uma conta na [Netlify](https://www.netlify.com/)
-- Um banco de dados PostgreSQL (recomendamos [Supabase](https://supabase.com/), [Railway](https://railway.app/), ou [Neon](https://neon.tech/))
-- Uma conta de email SMTP (pode usar [SendGrid](https://sendgrid.com/), [Gmail](https://gmail.com), etc.)
+-   **Framework Moderno:** Construído com [Next.js](https://nextjs.org/) (App Router) e [React](https://react.dev/).
+-   **Tipagem Estática:** [TypeScript](https://www.typescriptlang.org/) em todo o projeto.
+-   **Estilização:** [Tailwind CSS](https://tailwindcss.com/) para uma UI utilitária e customizável.
+-   **Componentes de UI:** Utiliza [shadcn/ui](https://ui.shadcn.com/) como base para componentes acessíveis.
+-   **Backend Integrado:** Lógica de backend construída diretamente com API Routes do Next.js.
+-   **Autenticação Completa:** Fluxos de registro, login, logout, edição de perfil e redefinição de senha.
+-   **Upload de Arquivos:** Exemplo de upload de imagem de perfil com [Vercel Blob](https://vercel.com/storage/blob).
+-   **Qualidade de Código:** [ESLint](https://eslint.org/) e [Prettier](https://prettier.io/) configurados para garantir a consistência do código.
+-   **Migrações de Banco de Dados:** Sistema simples de migração com scripts SQL e `ts-node`.
 
-## 🚀 Deploy na Netlify
+## 🚀 Começando
 
-### 1. Preparação do Repositório
+### Pré-requisitos
 
-1. Clone o repositório:
-   ```bash
-   git clone [URL_DO_SEU_REPOSITORIO]
-   cd [NOME_DO_PROJETO]
-   ```
+-   [Node.js](https://nodejs.org/en) (versão 20.x ou superior)
+-   [pnpm](https://pnpm.io/) como gerenciador de pacotes.
 
-2. Instale as dependências:
-   ```bash
-   npm install
-   ```
+### 1. Configuração do Ambiente
+
+1.  Clone o repositório:
+    ```bash
+    git clone [URL_DO_SEU_REPOSITORIO] nome-do-projeto
+    cd nome-do-projeto
+    ```
+
+2.  Instale as dependências:
+    ```bash
+    pnpm install
+    ```
+
+3.  Configure suas variáveis de ambiente. Renomeie o arquivo `.env.example` (se houver) para `.env` e preencha com suas credenciais, especialmente a `POSTGRES_URL`.
+    ```
+    # Exemplo de .env
+    POSTGRES_URL="postgres://user:password@host:port/database"
+    JWT_SECRET="seu-segredo-super-secreto-para-jwt"
+    # ... outras variáveis para Vercel Blob, etc.
+    ```
 
 ### 2. Configuração do Banco de Dados
 
-1. Crie um banco de dados PostgreSQL em um dos serviços sugeridos
-2. Execute os scripts SQL necessários (encontrados em `/backend/sql/`)
-3. Guarde a string de conexão do banco de dados
+Este projeto usa um sistema de migração simples para versionar o schema do banco de dados.
 
-### 3. Configuração do SMTP
+1.  Crie seus scripts de migração na pasta `/migrations` (ex: `migrations/YYYY-MM-DD-nome-da-migracao.sql`).
+2.  Execute as migrações:
+    ```bash
+    pnpm db:migrate
+    ```
 
-1. Configure uma conta de email SMTP
-2. Guarde as credenciais de acesso SMTP:
-   - Host do servidor SMTP
-   - Porta SMTP
-   - Usuário SMTP
-   - Senha SMTP
-   - Email remetente
+### 3. Rodando o Servidor de Desenvolvimento
 
-### 4. Deploy na Netlify
-
-1. Faça login na Netlify:
-   ```bash
-   npm install netlify-cli -g
-   netlify login
-   ```
-
-2. Inicie o deploy:
-   ```bash
-   netlify init
-   ```
-
-3. Durante a configuração:
-   - Escolha "Create & configure a new site"
-   - Selecione o time (se tiver mais de um)
-   - Escolha um nome para o site (ou deixe a Netlify gerar um)
-
-### 5. Configuração das Variáveis de Ambiente
-
-No painel da Netlify, vá em:
-1. Site settings > Environment variables
-2. Adicione as seguintes variáveis:
-
-| Variável | Descrição | Exemplo |
-|----------|-----------|---------|
-| DATABASE_URL | URL de conexão do PostgreSQL | postgres://user:pass@host:5432/dbname |
-| JWT_SECRET | Chave secreta para tokens JWT | um-segredo-muito-seguro-123 |
-| SMTP_HOST | Host do servidor SMTP | smtp.gmail.com |
-| SMTP_PORT | Porta do servidor SMTP | 587 |
-| SMTP_USER | Usuário SMTP | seu-email@gmail.com |
-| SMTP_PASS | Senha SMTP | sua-senha-ou-app-password |
-| SMTP_FROM | Email remetente | noreply@seudominio.com |
-| FRONTEND_URL | URL do frontend | https://seu-site.netlify.app |
-
-### 6. Configuração do Build
-
-Verifique se o arquivo `netlify.toml` contém:
-
-```toml
-[build]
-  command = "npm run build"
-  publish = ".next"
-
-[functions]
-  external_node_modules = ["express"]
-  node_bundler = "esbuild"
-
-[[redirects]]
-  force = true
-  from = "/api/*"
-  status = 200
-  to = "/.netlify/functions/api/:splat"
-```
-
-## 📝 Notas Importantes
-
-### Limitações das Funções Serverless
-
-- Tempo máximo de execução: 10 segundos
-- Tamanho máximo do pacote: 50MB
-- Memória limitada
-- Conexões persistentes não são recomendadas
-
-### Banco de Dados
-
-- Use pools de conexão com limites adequados
-- Configure SSL se necessário
-- Mantenha índices apropriados para queries frequentes
-
-### Segurança
-
-- Sempre use HTTPS
-- Mantenha o JWT_SECRET seguro e único
-- Use senhas fortes para banco de dados e SMTP
-- Configure CORS adequadamente se necessário
-
-## 🔍 Verificação do Deploy
-
-1. Teste o status do backend:
-   ```
-   curl https://seu-site.netlify.app/api/hello
-   ```
-
-2. Teste a conexão com o banco:
-   ```
-   curl https://seu-site.netlify.app/api/db-status
-   ```
-
-## 🐛 Troubleshooting
-
-### Problemas Comuns
-
-1. **Erro de Conexão com o Banco:**
-   - Verifique se a string de conexão está correta
-   - Confirme se o IP do Netlify está liberado no banco
-   - Verifique se SSL está configurado corretamente
-
-2. **Erros de CORS:**
-   - Verifique a configuração de CORS no arquivo `api.mjs`
-   - Confirme se as origens permitidas estão corretas
-
-3. **Problemas com Email:**
-   - Verifique as credenciais SMTP
-   - Confirme se a porta SMTP está correta
-   - Para Gmail, use "App Password" se 2FA estiver ativo
-
-4. **Funções Netlify não Funcionam:**
-   - Verifique os logs na Netlify
-   - Confirme se o arquivo `api.mjs` está no diretório correto
-   - Verifique se todas as dependências estão instaladas
-
-## 📞 Suporte
-
-Se encontrar problemas:
-1. Verifique os logs na Netlify
-2. Consulte a [documentação da Netlify](https://docs.netlify.com/)
-3. Verifique as [limitações das funções Netlify](https://docs.netlify.com/functions/overview/)
-
-## 🔄 Atualizações
-
-Para atualizar o deploy:
-```bash
-git push # Se configurou deploy automático
-# ou
-netlify deploy --prod # Para deploy manual
-```
-
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
+Para iniciar o servidor de desenvolvimento, rode:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000) no seu navegador para ver o resultado.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Scripts Disponíveis
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+-   `pnpm dev`: Inicia o servidor de desenvolvimento.
+-   `pnpm build`: Gera a build de produção do projeto.
+-   `pnpm start`: Inicia um servidor de produção.
+-   `pnpm lint`: Executa o ESLint para encontrar problemas no código.
+-   `pnpm lint:fix`: Tenta corrigir os problemas encontrados pelo ESLint.
+-   `pnpm format`: Formata todo o código com o Prettier.
+-   `pnpm db:migrate`: Executa as migrações do banco de dados.
+
+## 📂 Estrutura de Pastas
+
+O código-fonte da aplicação reside no diretório `src/`:
+
+-   `src/app`: Rotas, páginas e layouts (App Router).
+-   `src/components`: Componentes React reutilizáveis.
+-   `src/lib`: Funções utilitárias e helpers.
+-   `src/hooks`: Hooks React customizados.
+-   `migrations/`: Scripts de migração do banco de dados.
+-   `memory-bank/`: Documentação interna do projeto (ver abaixo).
+
+## 🧠 Memory Bank
+
+Este projeto utiliza um sistema de documentação interna chamado "Memory Bank", localizado na pasta `/memory-bank`. Ele serve como uma fonte de verdade sobre as decisões de arquitetura, produto e tecnologia, garantindo que o conhecimento do projeto seja preservado.
 
 ## Learn More
 

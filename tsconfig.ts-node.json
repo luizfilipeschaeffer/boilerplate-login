@@ -1,0 +1,14 @@
+{
+  // Este tsconfig estende a configuração principal
+  "extends": "./tsconfig.json",
+  // E sobrescreve as opções necessárias para a execução com ts-node
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node"
+  }
+} 
