@@ -8,6 +8,7 @@ import { RootProvider } from "@/components/root-provider";
 import { NotificationPoller } from "@/components/notification-poller";
 import { Suspense } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,6 +38,7 @@ export default function RootLayout({
           </RootProvider>
         </Suspense>
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
