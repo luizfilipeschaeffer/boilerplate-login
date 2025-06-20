@@ -6,7 +6,8 @@ import NextTopLoader from "@/components/ui/next-top-loader";
 import { defaultMetadata } from "./metadata";
 import { RootProvider } from "@/components/root-provider";
 import { NotificationPoller } from "@/components/notification-poller";
-import { Suspense } from "react"; // Adicionar esta linha
+import { Suspense } from "react";
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,14 +25,15 @@ export default function RootLayout({
     <html lang="pt-br">
       <body className={inter.className}>
         <NextTopLoader />
-        <RootProvider>
-          {/* Adicionar a tag Suspense aqui */}
-          <Suspense fallback={null}>
+        {/* Envolva o RootProvider com Suspense */}
+        <Suspense fallback={null}>
+          <RootProvider>
             <NotificationPoller />
-          </Suspense>
-          {children}
-          <Toaster />
-        </RootProvider>
+            {children}
+            <Toaster />
+          </RootProvider>
+        </Suspense>
+        <Analytics />
       </body>
     </html>
   );
