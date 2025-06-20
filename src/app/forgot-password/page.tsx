@@ -29,7 +29,7 @@ export default function ForgotPasswordPage() {
       } else {
         toast.error(data.message || 'Ocorreu um erro.');
       }
-    } catch (error) {
+    } catch {
       toast.error('Não foi possível conectar ao servidor.');
     } finally {
       setLoading(false);
