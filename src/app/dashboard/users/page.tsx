@@ -1,4 +1,3 @@
-import { cookies } from 'next/headers';
 import UsersTable from './users-table';
 import { getUserIdFromHeaders } from '@/lib/auth-utils';
 
