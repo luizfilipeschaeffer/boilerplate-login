@@ -24,7 +24,6 @@ export default function RegisterPage() {
     cpf: "",
     birth_date: "",
     gender: "",
-    profile_image: "",
     password: "",
     confirmPassword: ""
   });
@@ -70,9 +69,17 @@ export default function RegisterPage() {
     e.preventDefault();
     setError("");
     setShowVerify(false);
+
+    // Validação do CPF
+    const digitosCpf = form.cpf.replace(/\D/g, '');
+    if (digitosCpf.length !== 11) {
+      setError("CPF inválido. Deve conter 11 dígitos.");
+      return;
+    }
+
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/register", {
+      const res = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -85,7 +92,6 @@ export default function RegisterPage() {
           cpf: form.cpf,
           birth_date: form.birth_date,
           gender: form.gender,
-          profile_image: form.profile_image,
           password: form.password
         }),
       });
@@ -180,10 +186,6 @@ export default function RegisterPage() {
                   <option value="">Selecione</option>
                   {genderOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
                 </select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="profile_image">URL da Imagem de Perfil</Label>
-                <Input id="profile_image" name="profile_image" value={form.profile_image} onChange={handleChange} placeholder="https://..." />
               </div>
               {error && <div className="text-red-600 text-sm text-center">{error}</div>}
               <Button className="w-full" type="submit" disabled={loading}>
