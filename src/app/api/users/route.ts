@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { pool } from '@/lib/db';
-import { headers } from 'next/headers';
+import { headers, cookies } from 'next/headers';
 import { getUserIdFromHeaders } from "@/lib/auth-utils";
 
 export async function GET() {
@@ -33,25 +33,48 @@ export async function GET() {
 export async function DELETE(req: Request) {
   try {
     const currentUserId = await getUserIdFromHeaders();
+    if (!currentUserId) {
+      return NextResponse.json({ message: 'Sessão inválida ou usuário não encontrado.' }, { status: 401 });
+    }
     const { ids } = await req.json();
 
     if (!ids || !Array.isArray(ids) || ids.length === 0) {
       return NextResponse.json({ message: "Nenhum ID de usuário fornecido." }, { status: 400 });
     }
 
-    // Impede que o usuário logado se auto-delete
-    if (ids.includes(currentUserId)) {
-      return NextResponse.json({ message: "Você não pode excluir a si mesmo." }, { status: 403 });
-    }
+    const isDeletingSelf = ids.length === 1 && ids[0] === currentUserId;
+    const canDeleteOthers = process.env.CAN_DELETE_OTHER_USERS === 'true';
 
-    // Usando ANY para deletar múltiplos IDs de forma eficiente
+    if (!isDeletingSelf && !canDeleteOthers) {
+      console.log(`Tentativa de exclusão não autorizada pelo usuário ${currentUserId} para os usuários ${ids.join(', ')}.`);
+      return NextResponse.json({ message: "Você não tem permissão para excluir outros usuários." }, { status: 403 });
+    }
+    
+    if (!isDeletingSelf) {
+      const otherUsersToDelete = ids.filter(id => id !== currentUserId);
+      if(otherUsersToDelete.length > 0 && !canDeleteOthers){
+        console.log(`Tentativa de exclusão não autorizada pelo usuário ${currentUserId} para os usuários ${otherUsersToDelete.join(', ')}.`);
+        return NextResponse.json({ message: "Você não tem permissão para excluir outros usuários." }, { status: 403 });
+      }
+    }
+    
     const deleteResult = await pool.query("DELETE FROM users WHERE id = ANY($1::uuid[])", [ids]);
 
     if (deleteResult.rowCount === 0) {
       return NextResponse.json({ message: "Nenhum usuário encontrado com os IDs fornecidos." }, { status: 404 });
     }
 
-    return NextResponse.json({ message: `${deleteResult.rowCount} usuário(s) removido(s) com sucesso.` });
+    const response = isDeletingSelf 
+      ? NextResponse.json({ message: "Sua conta foi removida com sucesso." })
+      : NextResponse.json({ message: `${deleteResult.rowCount} usuário(s) removido(s) com sucesso.` });
+
+    if (isDeletingSelf) {
+      // Limpa os cookies de autenticação na resposta
+      response.cookies.delete('session_token');
+      response.cookies.delete('user_id');
+    }
+
+    return response;
 
   } catch (error) {
     console.error("Erro ao remover usuários:", error);
