@@ -16,6 +16,7 @@ export async function verifyToken(token: string): Promise<{ id: string } | null>
     const { payload } = await jwtVerify(token, secret);
     return payload as { id: string };
   } catch (error) {
+    console.error("Erro ao verificar token (auth-utils):", error);
     return null;
   }
 }
