@@ -60,7 +60,7 @@ function ResetPasswordForm() {
         toast.error(data.message || 'Ocorreu um erro.');
         setError(data.message);
       }
-    } catch (err) {
+    } catch {
       toast.error('Não foi possível conectar ao servidor.');
     } finally {
       setLoading(false);
