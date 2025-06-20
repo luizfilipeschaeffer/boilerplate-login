@@ -48,27 +48,11 @@ const data = {
           url: "/dashboard/users",
           icon: Users,
         },
-        {
-          title: "Relatórios",
-          url: "/dashboard/reports",
-          icon: BarChart3,
-        },
-        {
-          title: "Documentos",
-          url: "/dashboard/documents",
-          icon: FileText,
-        },
       ],
     },
     {
       title: "Configurações",
-      items: [
-        {
-          title: "Configurações",
-          url: "/dashboard/settings",
-          icon: Settings,
-        },
-      ],
+      items: [],
     },
   ],
 }
