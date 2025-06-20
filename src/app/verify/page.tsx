@@ -13,13 +13,12 @@ export default function VerifyPage() {
 
   useEffect(() => {
     const token = searchParams.get("token");
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
     if (!token) {
       setStatus("error");
       setMessage("Token de verificação não fornecido.");
       return;
     }
-    fetch(`${API_URL}/api/verify?token=${token}`)
+    fetch(`/api/auth/verify?token=${token}`)
       .then(async (res) => {
         const data = await res.json();
         if (res.ok) {
