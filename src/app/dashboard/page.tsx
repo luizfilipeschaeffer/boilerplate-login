@@ -3,6 +3,8 @@ import { Users } from "lucide-react"
 import { Metadata } from "next"
 import { getUsers } from "@/lib/auth-utils"
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: "Dashboard",
 };
