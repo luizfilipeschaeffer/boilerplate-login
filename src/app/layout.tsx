@@ -5,7 +5,6 @@ import { Toaster } from "@/components/ui/sonner";
 import NextTopLoader from "@/components/ui/next-top-loader";
 import { defaultMetadata } from "./metadata";
 import { RootProvider } from "@/components/root-provider";
-import { NotificationPoller } from "@/components/notification-poller";
 import { Suspense } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/react"
@@ -32,7 +31,6 @@ export default function RootLayout({
         
         <Suspense fallback={null}>
           <RootProvider>
-            <NotificationPoller />
             {children}
             <Toaster />
           </RootProvider>
