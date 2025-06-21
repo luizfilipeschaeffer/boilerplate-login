@@ -22,10 +22,20 @@ export function NotificationPoller() {
     }
   );
 
-  // Efeito para solicitar permissão de notificação nativa na montagem do componente.
+  // Efeito para solicitar permissão de notificação nativa.
   useEffect(() => {
-    if ('Notification' in window && Notification.permission === 'default') {
-      Notification.requestPermission();
+    const permissionRequested = localStorage.getItem(
+      'notificationPermissionRequested'
+    );
+
+    if (
+      !permissionRequested &&
+      'Notification' in window &&
+      Notification.permission === 'default'
+    ) {
+      Notification.requestPermission().then(() => {
+        localStorage.setItem('notificationPermissionRequested', 'true');
+      });
     }
   }, []);
 
