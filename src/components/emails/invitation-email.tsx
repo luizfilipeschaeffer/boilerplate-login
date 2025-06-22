@@ -36,7 +36,7 @@ export const InvitationEmail = ({
       <Body style={main}>
         <Container style={container}>
           <Img
-            src={`${baseUrl}/static/file.svg`}
+            src={`${baseUrl}/file.svg`}
             width="42"
             height="42"
             alt={teamName}

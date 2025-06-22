@@ -5,6 +5,7 @@
 /.pnp
 .pnp.*
 .yarn/*
+.vscode/*
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
@@ -46,3 +47,5 @@ next-env.d.ts
 
 # User-uploaded files
 /public/avatars/
+
+.vercel

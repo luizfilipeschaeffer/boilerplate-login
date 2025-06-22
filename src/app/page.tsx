@@ -4,10 +4,8 @@ import { Metadata } from "next";
 import AnimatedShinyText from "@/components/magicui/animated-shiny-text";
 import { cn } from "@/lib/utils";
 import WordRotate from "@/components/magicui/word-rotate";
-// import ScrollIndicator from "@/components/scroll-indicator";
 import { AuthButtons } from "@/components/auth-buttons";
 import { ThemeToggleButton } from "@/components/ui/theme-toggle-button";
-// import { RegisterNowButton } from "@/components/register-now-button";
 
 export const metadata: Metadata = {
   title: "Boilerplate de Autenticação",
@@ -114,7 +112,6 @@ export default function HomePage() {
               Crie sua conta gratuitamente e explore a plataforma. A jornada para um desenvolvimento ágil começa aqui.
             </p>
             <div className="mt-8">
-              {/* <RegisterNowButton /> */}
             </div>
           </div>
         </section>
