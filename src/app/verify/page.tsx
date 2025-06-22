@@ -1,13 +1,13 @@
 "use client"
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function VerifyPage() {
+function VerifyComponent() {
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
   const [message, setMessage] = useState("");
-  const [countdown, setCountdown] = useState(3);
+  const [countdown, setCountdown] = useState(5);
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -73,4 +73,12 @@ export default function VerifyPage() {
       </Card>
     </div>
   );
+}
+
+export default function VerifyPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gray-50">Verificando...</div>}>
+      <VerifyComponent />
+    </Suspense>
+  )
 } 
