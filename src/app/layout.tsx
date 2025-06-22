@@ -1,3 +1,5 @@
+"use client"
+
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google"
 import "./globals.css";
@@ -8,6 +10,8 @@ import { Suspense } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/react"
 import { cn } from "@/lib/utils"
+import { usePathname } from 'next/navigation';
+import { AuthLayout } from '@/components/auth-layout';
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -24,6 +28,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <body
@@ -36,12 +42,14 @@ export default function RootLayout({
           <NextTopLoader />
         </Suspense>
         
-        <div className="h-full w-full p-2 sm:p-4 bg-[#2B2B2B] select-none">
-          <RootProvider>
-            {children}
-            <Toaster />
-          </RootProvider>
-        </div>
+        <RootProvider>
+          {pathname.startsWith('/dashboard') ? (
+            children
+          ) : (
+            <AuthLayout>{children}</AuthLayout>
+          )}
+          <Toaster />
+        </RootProvider>
         
         <SpeedInsights />
         <Analytics />
