@@ -3,7 +3,6 @@ import Link from "next/link"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
@@ -49,7 +48,6 @@ export default function RegisterPage() {
   function handleNextStep(e: React.FormEvent) {
     e.preventDefault();
     setError("");
-    // Validações da primeira etapa
     if (!form.nickname || !form.email || !form.password || !form.confirmPassword) {
       setError("Preencha todos os campos obrigatórios.");
       return;
@@ -65,12 +63,17 @@ export default function RegisterPage() {
     setStep(2);
   }
 
+  function handlePreviousStep(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    setError("");
+    setStep(1);
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     setShowVerify(false);
 
-    // Validação do CPF
     const digitosCpf = form.cpf.replace(/\D/g, '');
     if (digitosCpf.length !== 11) {
       setError("CPF inválido. Deve conter 11 dígitos.");
@@ -111,99 +114,99 @@ export default function RegisterPage() {
     }
   }
 
+  const inputStyles = "bg-gray-900/50 border-gray-700 text-white";
+  const selectStyles = `${inputStyles} block w-full rounded-md border p-2 text-white`;
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Criar Conta</CardTitle>
-          <CardDescription className="text-center">Preencha os dados abaixo para criar sua conta</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {showVerify ? (
-            <div className="space-y-4 text-center">
-              <div className="text-green-600 font-semibold">Conta criada!<br />Enviamos um link de verificação para <b>{form.email}</b>.<br />Acesse seu e-mail e clique no link para ativar sua conta.</div>
-              {emailDomain && (
-                <Button className="w-full" asChild>
-                  <a href={emailDomain} target="_blank" rel="noopener noreferrer">
-                    Ir para minha caixa de entrada
-                  </a>
-                </Button>
-              )}
-              <Button className="w-full" onClick={() => router.push("/login")}>Ir para o Login</Button>
-            </div>
-          ) : step === 1 ? (
-            <form className="space-y-4" onSubmit={handleNextStep}>
-              <div className="space-y-2">
-                <Label htmlFor="nickname">Nickname</Label>
-                <Input id="nickname" name="nickname" required value={form.nickname} onChange={handleChange} placeholder="Seu apelido único" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" name="email" type="email" required value={form.email} onChange={handleChange} placeholder="seu@email.com" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email_recuperacao">Email de Recuperação</Label>
-                <Input id="email_recuperacao" name="email_recuperacao" type="email" value={form.email_recuperacao} onChange={handleChange} placeholder="email alternativo" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="telefone">Telefone (formato internacional)</Label>
-                <Input id="telefone" name="telefone" value={form.telefone} onChange={handleChange} placeholder="+55 11 91234-5678" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Senha</Label>
-                <Input id="password" name="password" type="password" required value={form.password} onChange={handleChange} />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirmar Senha</Label>
-                <Input id="confirmPassword" name="confirmPassword" type="password" required value={form.confirmPassword} onChange={handleChange} />
-              </div>
-              {error && <div className="text-red-600 text-sm text-center">{error}</div>}
-              <Button className="w-full" type="submit" disabled={loading}>
-                Próxima Etapa
-              </Button>
-            </form>
-          ) : (
-            <form className="space-y-4" onSubmit={handleSubmit}>
-              <div className="space-y-2">
-                <Label htmlFor="nome">Nome</Label>
-                <Input id="nome" name="nome" required value={form.nome} onChange={handleChange} placeholder="Seu nome" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="sobrenome">Sobrenome</Label>
-                <Input id="sobrenome" name="sobrenome" value={form.sobrenome} onChange={handleChange} placeholder="Seu sobrenome" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="cpf">CPF</Label>
-                <Input id="cpf" name="cpf" value={form.cpf} onChange={handleChange} placeholder="123.456.789-00" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="birth_date">Data de Nascimento</Label>
-                <Input id="birth_date" name="birth_date" type="date" required value={form.birth_date} onChange={handleChange} />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="gender">Gênero</Label>
-                <select id="gender" name="gender" required value={form.gender} onChange={handleChange} className="w-full border rounded px-2 py-2">
-                  <option value="">Selecione</option>
-                  {genderOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
-                </select>
-              </div>
-              {error && <div className="text-red-600 text-sm text-center">{error}</div>}
-              <Button className="w-full" type="submit" disabled={loading}>
-                {loading ? "Criando..." : "Registrar"}
-              </Button>
-              <Button className="w-full" variant="secondary" type="button" onClick={() => setStep(1)}>
-                Voltar
-              </Button>
-            </form>
+    <div className="w-full max-w-md bg-black/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-800 text-white">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold">Criar Conta</h1>
+        <p className="text-gray-400">Preencha os dados abaixo para criar sua conta</p>
+      </div>
+
+      {showVerify ? (
+        <div className="space-y-4 text-center">
+          <div className="text-green-400 font-semibold">Conta criada!<br />Enviamos um link de verificação para <b>{form.email}</b>.<br />Acesse seu e-mail e clique no link para ativar sua conta.</div>
+          {emailDomain && (
+            <Button className="w-full bg-blue-600 hover:bg-blue-700" asChild>
+              <a href={emailDomain} target="_blank" rel="noopener noreferrer">
+                Ir para minha caixa de entrada
+              </a>
+            </Button>
           )}
-          <div className="text-center text-sm">
-            Já tem uma conta?{" "}
-            <Link href="/login" className="text-blue-600 hover:underline">
-              Entrar
-            </Link>
+          <Button className="w-full" variant="secondary" onClick={() => router.push("/login")}>Ir para o Login</Button>
+        </div>
+      ) : step === 1 ? (
+        <form className="space-y-4" onSubmit={handleNextStep}>
+          <div className="space-y-2">
+            <Label htmlFor="nickname">Nickname</Label>
+            <Input id="nickname" name="nickname" required value={form.nickname} onChange={handleChange} placeholder="Seu apelido único" className={inputStyles} />
           </div>
-        </CardContent>
-      </Card>
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" name="email" type="email" required value={form.email} onChange={handleChange} placeholder="seu@email.com" className={inputStyles} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="email_recuperacao">Email de Recuperação</Label>
+            <Input id="email_recuperacao" name="email_recuperacao" type="email" value={form.email_recuperacao} onChange={handleChange} placeholder="email alternativo" className={inputStyles} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="telefone">Telefone (formato internacional)</Label>
+            <Input id="telefone" name="telefone" value={form.telefone} onChange={handleChange} placeholder="+55 11 91234-5678" className={inputStyles} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="password">Senha</Label>
+            <Input id="password" name="password" type="password" required value={form.password} onChange={handleChange} className={inputStyles} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword">Confirmar Senha</Label>
+            <Input id="confirmPassword" name="confirmPassword" type="password" required value={form.confirmPassword} onChange={handleChange} className={inputStyles} />
+          </div>
+          {error && <div className="text-red-500 text-sm text-center pt-2">{error}</div>}
+          <Button className="w-full bg-blue-600 hover:bg-blue-700" type="submit" disabled={loading}>
+            Próxima Etapa
+          </Button>
+        </form>
+      ) : (
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <div className="space-y-2">
+            <Label htmlFor="nome">Nome</Label>
+            <Input id="nome" name="nome" required value={form.nome} onChange={handleChange} placeholder="Seu nome" className={inputStyles} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="sobrenome">Sobrenome</Label>
+            <Input id="sobrenome" name="sobrenome" value={form.sobrenome} onChange={handleChange} placeholder="Seu sobrenome" className={inputStyles} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="cpf">CPF</Label>
+            <Input id="cpf" name="cpf" value={form.cpf} onChange={handleChange} placeholder="123.456.789-00" className={inputStyles} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="birth_date">Data de Nascimento</Label>
+            <Input id="birth_date" name="birth_date" type="date" required value={form.birth_date} onChange={handleChange} className={inputStyles} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="gender">Gênero</Label>
+            <select id="gender" name="gender" required value={form.gender} onChange={handleChange} className={selectStyles}>
+              <option value="">Selecione</option>
+              {genderOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+            </select>
+          </div>
+          {error && <div className="text-red-500 text-sm text-center pt-2">{error}</div>}
+          <Button className="w-full bg-blue-600 hover:bg-blue-700" type="submit" disabled={loading}>
+            {loading ? "Criando..." : "Registrar"}
+          </Button>
+          <Button className="w-full" variant="secondary" type="button" onClick={(e) => handlePreviousStep(e)}>
+            Voltar
+          </Button>
+        </form>
+      )}
+      <div className="text-center text-sm mt-6 text-gray-300">
+        Já tem uma conta?{" "}
+        <Link href="/login" className="text-blue-400 hover:underline">
+          Entrar
+        </Link>
+      </div>
     </div>
   )
 }

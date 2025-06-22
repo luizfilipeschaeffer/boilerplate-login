@@ -4,7 +4,6 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Progress } from "@/components/ui/progress"
@@ -20,9 +19,9 @@ export default function LoginPage() {
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (loading) {
-      setProgress(10); // Inicia a barra de progresso
+      setProgress(10);
       timer = setInterval(() => {
-        setProgress(prev => (prev < 90 ? prev + 10 : 90)); // Avança até 90%
+        setProgress(prev => (prev < 90 ? prev + 10 : 90));
       }, 100);
     } else {
       setProgress(0);
@@ -45,7 +44,6 @@ export default function LoginPage() {
         setError(data.message || "Erro ao fazer login");
         return;
       }
-      // Token já está salvo em cookie seguro pela API route
       router.push("/dashboard");
     } catch {
       setError("Erro de conexão com o servidor");
@@ -55,48 +53,44 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Entrar</CardTitle>
-          <CardDescription className="text-center">Digite suas credenciais para acessar sua conta</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="seu@email.com" required value={email} onChange={e => setEmail(e.target.value)} />
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">Senha</Label>
-                <Link
-                  href="/forgot-password"
-                  className="text-sm text-blue-600 hover:underline"
-                >
-                  Esqueceu sua senha?
-                </Link>
-              </div>
-              <Input id="password" type="password" required value={password} onChange={e => setPassword(e.target.value)} />
-            </div>
-            {error && <div className="text-red-600 text-sm text-center">{error}</div>}
-            <Button className="w-full" type="submit" disabled={loading}>
-              {loading ? "Entrando..." : "Entrar"}
-            </Button>
-            {loading && (
-              <div className="pt-2">
-                <Progress value={progress} className="w-full" />
-              </div>
-            )}
-          </form>
-          <div className="text-center text-sm">
-            Não tem uma conta?{" "}
-            <Link href="/register" className="text-blue-600 hover:underline">
-              Registre-se
+    <div className="w-full max-w-md bg-black/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-800 text-white">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold">Entrar</h1>
+        <p className="text-gray-400">Digite suas credenciais para acessar sua conta</p>
+      </div>
+      <form className="space-y-6" onSubmit={handleSubmit}>
+        <div className="space-y-2">
+          <Label htmlFor="email">Email</Label>
+          <Input id="email" type="email" placeholder="seu@email.com" required value={email} onChange={e => setEmail(e.target.value)} className="bg-gray-900/50 border-gray-700 text-white" />
+        </div>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="password">Senha</Label>
+            <Link
+              href="/forgot-password"
+              className="text-sm text-blue-400 hover:underline"
+            >
+              Esqueceu sua senha?
             </Link>
           </div>
-        </CardContent>
-      </Card>
+          <Input id="password" type="password" required value={password} onChange={e => setPassword(e.target.value)} className="bg-gray-900/50 border-gray-700 text-white" />
+        </div>
+        {error && <div className="text-red-500 text-sm text-center pt-2">{error}</div>}
+        <Button className="w-full bg-blue-600 hover:bg-blue-700" type="submit" disabled={loading}>
+          {loading ? "Entrando..." : "Entrar"}
+        </Button>
+        {loading && (
+          <div className="pt-2">
+            <Progress value={progress} className="w-full [&>div]:bg-blue-600" />
+          </div>
+        )}
+      </form>
+      <div className="text-center text-sm mt-6 text-gray-300">
+        Não tem uma conta?{" "}
+        <Link href="/register" className="text-blue-400 hover:underline">
+          Registre-se
+        </Link>
+      </div>
     </div>
   )
 }
