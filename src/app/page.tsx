@@ -5,20 +5,13 @@ import AnimatedShinyText from "@/components/magicui/animated-shiny-text";
 import { cn } from "@/lib/utils";
 import WordRotate from "@/components/magicui/word-rotate";
 // import ScrollIndicator from "@/components/scroll-indicator";
-// import { AuthButtons } from "@/components/auth-buttons";
+import { AuthButtons } from "@/components/auth-buttons";
 // import { RegisterNowButton } from "@/components/register-now-button";
 
 export const metadata: Metadata = {
   title: "Boilerplate de Autenticação",
   description: "Uma solução completa e pronta para uso para sistemas de autenticação, registro e gerenciamento de usuários.",
 };
-
-/* const sections = [
-  { id: 'home', label: 'Início' },
-  { id: 'features', label: 'Funcionalidades' },
-  { id: 'how-it-works', label: 'Como Funciona' },
-  { id: 'cta', label: 'Começar' },
-]; */
 
 export default function HomePage() {
   return (
@@ -50,7 +43,9 @@ export default function HomePage() {
               <p className="max-w-[700px] text-gray-400 md:text-xl">
                 Uma base sólida e elegante para sua aplicação, com tudo que você precisa para começar a desenvolver.
               </p>
-              {/* <AuthButtons /> */}
+              <div className="mt-6">
+                <AuthButtons />
+              </div>
             </div>
           </div>
         </section>
