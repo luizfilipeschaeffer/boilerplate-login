@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { HomeLink } from "@/components/ui/home-link";
+import { ThemeToggleButton } from "@/components/ui/theme-toggle-button";
 
 const genderOptions = [
   { value: "masculino", label: "Masculino" },
@@ -33,6 +35,8 @@ export default function RegisterPage() {
   const [emailDomain, setEmailDomain] = useState<string | null>(null);
   const [step, setStep] = useState<1 | 2>(1);
   const router = useRouter();
+
+  const isFormDirty = Object.values(form).some(value => value !== "");
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = e.target;
@@ -112,7 +116,8 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="relative min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 py-12">
+      <HomeLink isFormDirty={isFormDirty} />
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Criar Conta</CardTitle>
@@ -182,7 +187,7 @@ export default function RegisterPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="gender">Gênero</Label>
-                <select id="gender" name="gender" required value={form.gender} onChange={handleChange} className="w-full border rounded px-2 py-2">
+                <select id="gender" name="gender" required value={form.gender} onChange={handleChange} className="w-full border rounded px-2 py-2 bg-background">
                   <option value="">Selecione</option>
                   {genderOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
                 </select>
@@ -204,6 +209,7 @@ export default function RegisterPage() {
           </div>
         </CardContent>
       </Card>
+      <ThemeToggleButton />
     </div>
   )
 }

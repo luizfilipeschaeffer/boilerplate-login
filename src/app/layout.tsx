@@ -8,6 +8,7 @@ import { RootProvider } from "@/components/root-provider";
 import { Suspense } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/react"
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,21 +23,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br">
+    <html lang="pt-br" suppressHydrationWarning>
       <body className={inter.className}>
-        {/* Envolva o NextTopLoader com seu próprio Suspense */}
-        <Suspense fallback={null}>
-          <NextTopLoader />
-        </Suspense>
-        
-        <Suspense fallback={null}>
-          <RootProvider>
-            {children}
-            <Toaster />
-          </RootProvider>
-        </Suspense>
-        <SpeedInsights />
-        <Analytics />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {/* Envolva o NextTopLoader com seu próprio Suspense */}
+          <Suspense fallback={null}>
+            <NextTopLoader />
+          </Suspense>
+          
+          <Suspense fallback={null}>
+            <RootProvider>
+              {children}
+              <Toaster />
+            </RootProvider>
+          </Suspense>
+          <SpeedInsights />
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   );

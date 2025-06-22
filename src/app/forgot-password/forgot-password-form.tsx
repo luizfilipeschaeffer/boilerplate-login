@@ -6,10 +6,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Toaster, toast } from 'sonner';
+import { HomeLink } from '@/components/ui/home-link';
+import { ThemeToggleButton } from '@/components/ui/theme-toggle-button';
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const isFormDirty = email !== '';
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,7 +43,8 @@ export default function ForgotPasswordForm() {
   return (
     <>
       <Toaster richColors />
-      <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-950">
+      <div className="relative flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-950">
+        <HomeLink isFormDirty={isFormDirty} />
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Redefinir Senha</CardTitle>
@@ -67,6 +72,7 @@ export default function ForgotPasswordForm() {
             </form>
           </CardContent>
         </Card>
+        <ThemeToggleButton />
       </div>
     </>
   );

@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { HomeLink } from "@/components/ui/home-link";
+import { ThemeToggleButton } from "@/components/ui/theme-toggle-button";
 
 export default function VerifyPage() {
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
@@ -51,7 +53,8 @@ export default function VerifyPage() {
   }, [countdown, router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="relative min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+      <HomeLink isFormDirty={false} />
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Verificação de Conta</CardTitle>
@@ -71,6 +74,7 @@ export default function VerifyPage() {
           )}
         </CardContent>
       </Card>
+      <ThemeToggleButton />
     </div>
   );
 } 

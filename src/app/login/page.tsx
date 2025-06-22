@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Progress } from "@/components/ui/progress"
+import { HomeLink } from "@/components/ui/home-link"
+import { ThemeToggleButton } from "@/components/ui/theme-toggle-button"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -16,6 +18,8 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [progress, setProgress] = useState(0);
   const router = useRouter();
+
+  const isFormDirty = email !== "" || password !== "";
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -55,7 +59,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="relative min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+      <HomeLink isFormDirty={isFormDirty} />
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Entrar</CardTitle>
@@ -97,6 +102,7 @@ export default function LoginPage() {
           </div>
         </CardContent>
       </Card>
+      <ThemeToggleButton />
     </div>
   )
 }

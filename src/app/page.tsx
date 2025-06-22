@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import WordRotate from "@/components/magicui/word-rotate";
 // import ScrollIndicator from "@/components/scroll-indicator";
 import { AuthButtons } from "@/components/auth-buttons";
+import { ThemeToggleButton } from "@/components/ui/theme-toggle-button";
 // import { RegisterNowButton } from "@/components/register-now-button";
 
 export const metadata: Metadata = {
@@ -24,11 +25,11 @@ export default function HomePage() {
           <div className="relative z-10 container px-7 sm:px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4">
               <div className={cn(
-                "group rounded-full border border-black/5 bg-neutral-900 text-base transition-all ease-in hover:cursor-pointer dark:border-white/5 animate-pulse-badge",
+                "group rounded-full border border-black/5 bg-neutral-100 text-base text-black transition-all ease-in hover:cursor-pointer dark:border-white/5 dark:bg-neutral-900 dark:text-white animate-pulse-badge",
               )}>
                 <AnimatedShinyText 
                   className="inline-flex items-center justify-center px-4 py-1 transition ease-out [--shiny-bg:theme(colors.blue.500)]"
-                  textClassName="text-white"
+                  textClassName="text-neutral-600 dark:text-white"
                 >
                   ✨ Apresentando um Novo Design
                 </AnimatedShinyText>
@@ -40,7 +41,7 @@ export default function HomePage() {
                   className="inline-block text-white bg-blue-600 rounded-md px-2"
                 />
               </h1>
-              <p className="max-w-[700px] text-gray-400 md:text-xl">
+              <p className="max-w-[700px] text-gray-500 dark:text-gray-400 md:text-xl">
                 Uma base sólida e elegante para sua aplicação, com tudo que você precisa para começar a desenvolver.
               </p>
               <div className="mt-6">
@@ -51,11 +52,11 @@ export default function HomePage() {
         </section>
 
         {/* Features Section */}
-        <section id="features" className="w-full py-20 md:py-32 bg-black flex justify-center">
+        <section id="features" className="w-full py-20 md:py-32 bg-gray-50 dark:bg-black flex justify-center">
           <div className="container px-7 sm:px-4 md:px-6 flex flex-col items-center">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Funcionalidades Essenciais</h2>
-              <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed">
+              <p className="max-w-[900px] text-gray-500 dark:text-gray-400 md:text-xl/relaxed">
                 Tudo pronto para você focar no que realmente importa: a lógica do seu negócio.
               </p>
             </div>
@@ -68,15 +69,15 @@ export default function HomePage() {
                 { icon: Users, title: "Gerenciamento de Usuários", description: "Sistema de convites para adicionar novos membros." },
                 { icon: Bell, title: "Notificações", description: "Feedback em tempo real com toasts e notificações nativas." },
               ].map((feature, i) => (
-                <Card key={i} className="bg-gray-900/80 border-gray-800 h-full">
+                <Card key={i} className="bg-white dark:bg-gray-900/80 border-gray-200 dark:border-gray-800 h-full">
                   <CardHeader>
-                    <CardTitle className="flex items-center justify-center gap-3 text-white">
-                      <feature.icon className="w-7 h-7 text-blue-400" />
+                    <CardTitle className="flex items-center justify-center gap-3 text-black dark:text-white">
+                      <feature.icon className="w-7 h-7 text-blue-500 dark:text-blue-400" />
                       {feature.title}
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-center">
-                    <p className="text-gray-400">{feature.description}</p>
+                    <p className="text-gray-600 dark:text-gray-400">{feature.description}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -95,10 +96,10 @@ export default function HomePage() {
                 { title: "Faça o Login", description: "Acesse a plataforma com suas novas credenciais." },
                 { title: "Explore", description: "Navegue pelo dashboard e descubra as funcionalidades." },
               ].map((step, i) => (
-                <div key={i} className="flex flex-col items-center gap-4">
+                <div key={i} className="flex flex-col items-center gap-4 text-center">
                   <div className="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold">{i + 1}</div>
                   <h3 className="text-xl font-bold">{step.title}</h3>
-                  <p className="text-gray-400">{step.description}</p>
+                  <p className="text-gray-500 dark:text-gray-400">{step.description}</p>
                 </div>
               ))}
             </div>
@@ -106,10 +107,10 @@ export default function HomePage() {
         </section>
 
         {/* CTA Section */}
-        <section id="cta" className="w-full py-20 md:py-32 flex justify-center">
+        <section id="cta" className="w-full py-20 md:py-32 bg-gray-50 dark:bg-black flex justify-center">
           <div className="container px-7 sm:px-4 md:px-6 flex flex-col items-center text-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Pronto para Começar?</h2>
-            <p className="max-w-[600px] text-gray-400 md:text-xl/relaxed mt-4">
+            <p className="max-w-[600px] text-gray-500 dark:text-gray-400 md:text-xl/relaxed mt-4">
               Crie sua conta gratuitamente e explore a plataforma. A jornada para um desenvolvimento ágil começa aqui.
             </p>
             <div className="mt-8">
@@ -120,9 +121,10 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="py-6 w-full text-center border-t border-gray-800">
-        <p className="text-sm text-gray-500">&copy; {new Date().getFullYear()} Boilerplate Auth. Feito com ❤️.</p>
+      <footer className="py-6 w-full text-center border-t border-gray-200 dark:border-gray-800">
+        <p className="text-sm text-gray-600 dark:text-gray-500">&copy; {new Date().getFullYear()} Boilerplate Auth. Feito com ❤️.</p>
       </footer>
+      <ThemeToggleButton />
     </div>
   );
 }
