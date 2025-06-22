@@ -13,12 +13,12 @@ export const metadata: Metadata = {
   description: "Uma solução completa e pronta para uso para sistemas de autenticação, registro e gerenciamento de usuários.",
 };
 
-const sections = [
+/* const sections = [
   { id: 'home', label: 'Início' },
   { id: 'features', label: 'Funcionalidades' },
   { id: 'how-it-works', label: 'Como Funciona' },
   { id: 'cta', label: 'Começar' },
-];
+]; */
 
 export default function HomePage() {
   return (
