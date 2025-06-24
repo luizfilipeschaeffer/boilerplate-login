@@ -21,6 +21,16 @@ export async function verifyToken(token: string): Promise<{ id: string } | null>
   }
 }
 
+export async function isUserAdmin(userId: string): Promise<boolean> {
+  try {
+    const result = await pool.query('SELECT role FROM users WHERE id = $1', [userId]);
+    return result.rows[0]?.role === 'admin';
+  } catch (error) {
+    console.error("Erro ao verificar se usuário é admin:", error);
+    return false;
+  }
+}
+
 export async function getUsers() {
   try {
     const cookieStore = await cookies();

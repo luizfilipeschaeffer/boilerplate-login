@@ -23,7 +23,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { Home, Users, User, LogOut, ChevronUp } from "lucide-react"
+import { Home, Users, User, LogOut, ChevronUp, Settings } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useTheme } from "@/app/providers"
@@ -52,7 +52,13 @@ const data = {
     },
     {
       title: "Configurações",
-      items: [],
+      items: [
+        {
+          title: "Ajustes",
+          url: "/dashboard/settings",
+          icon: Settings,
+        },
+      ],
     },
   ],
 }
