@@ -9,7 +9,12 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\" --ignore-path .gitignore",
-    "db:migrate": "ts-node --project tsconfig.ts-node.json src/lib/migrate.ts"
+    "db:migrate": "ts-node --project tsconfig.ts-node.json src/lib/migrate.ts",
+    "db:backup": "pg_dump --inserts --no-owner --no-privileges --dbname=\"$POSTGRES_URL\" > src/lib/backup/backup.sql",
+    "db:restore": "psql \"$POSTGRES_URL\" -f src/lib/backup/*.sql",
+    "db:start": "npm run db:export-schema && npm run db:migrate && npm run db:restore && echo 'Banco de dados pronto! Agora execute npm run dev ou npm run build.'",
+    "db:export-schema": "pg_dump --schema-only --no-owner --no-privileges --dbname=\"$POSTGRES_URL\" > src/lib/backup/schema.sql",
+    "backup:auto": "ts-node src/lib/backup/backup.ts"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.10",

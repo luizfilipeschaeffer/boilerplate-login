@@ -2,6 +2,19 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
+// Variáveis obrigatórias
+const REQUIRED_ENVS = [
+  'POSTGRES_URL',
+  'DATABASE_URL',
+  'JWT_SECRET',
+  'RESEND_API_KEY',
+  'NEXT_PUBLIC_BASE_URL',
+];
+
+function missingRequiredEnvs() {
+  return REQUIRED_ENVS.filter((key) => !process.env[key]);
+}
+
 // Esta função pode ser exportada para uso em outros lugares se necessário
 async function verifyToken(token: string): Promise<{ id: string } | null> {
   if (!token) return null;
@@ -20,8 +33,25 @@ async function verifyToken(token: string): Promise<{ id: string } | null> {
 }
 
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get('auth_token')?.value;
+  const missing = missingRequiredEnvs();
   const { pathname } = req.nextUrl;
+
+  // Ignorar rotas de assets, rotas internas do Next.js, favicon, robots.txt
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/static') ||
+    pathname.startsWith('/favicon.ico') ||
+    pathname.startsWith('/robots.txt')
+  ) {
+    return NextResponse.next();
+  }
+
+  // Redirecionar para /env-setup apenas se faltar variável e não estiver já na página de setup
+  if (missing.length > 0 && pathname !== '/env-setup') {
+    return NextResponse.redirect(new URL('/env-setup', req.url));
+  }
+
+  const token = req.cookies.get('auth_token')?.value;
 
   const isApiRoute = pathname.startsWith('/api');
   const isProtectedRoute = pathname.startsWith('/dashboard');
@@ -65,5 +95,5 @@ export async function middleware(req: NextRequest) {
 
 // Configuração do matcher para definir onde o middleware será executado
 export const config = {
-  matcher: ['/dashboard/:path*', '/api/user/:path*', '/api/users/:path*'],
+  matcher: ['/:path*'],
 }; 

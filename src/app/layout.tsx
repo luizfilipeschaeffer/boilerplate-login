@@ -24,26 +24,27 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          {/* Envolva o NextTopLoader com seu próprio Suspense */}
-          <Suspense fallback={null}>
-            <NextTopLoader />
-          </Suspense>
-          
-          <Suspense fallback={null}>
-            <RootProvider>
-              {children}
-              <Toaster />
-            </RootProvider>
-          </Suspense>
-          <SpeedInsights />
-          <Analytics />
+          <div className={inter.className}>
+            {/* Envolva o NextTopLoader com seu próprio Suspense */}
+            <Suspense fallback={null}>
+              <NextTopLoader />
+            </Suspense>
+            <Suspense fallback={null}>
+              <RootProvider>
+                {children}
+                <Toaster />
+              </RootProvider>
+            </Suspense>
+            <SpeedInsights />
+            <Analytics />
+          </div>
         </ThemeProvider>
       </body>
     </html>

@@ -91,6 +91,19 @@ O código-fonte da aplicação reside no diretório `src/`:
 
 Este projeto utiliza um sistema de documentação interna chamado "Memory Bank", localizado na pasta `/memory-bank`. Ele serve como uma fonte de verdade sobre as decisões de arquitetura, produto e tecnologia, garantindo que o conhecimento do projeto seja preservado.
 
+## Backup Automático
+
+1. Certifique-se de que a tabela `settings` existe (veja a migration em `migrations/2024-06-22-create-settings-table.sql`).
+2. Defina a variável `BACKUP_EMAIL` no seu arquivo `.env` com o e-mail de destino.
+3. Para habilitar o backup automático, defina o campo `auto_backup_enabled` como `true` na tabela `settings` (exemplo: `UPDATE settings SET auto_backup_enabled = true WHERE id = 1;`).
+4. Execute o comando:
+
+```bash
+npm run backup:auto
+```
+
+Se a flag estiver ativada, o backup será gerado em `src/lib/backup/backup.sql` e enviado por e-mail usando o Resend.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

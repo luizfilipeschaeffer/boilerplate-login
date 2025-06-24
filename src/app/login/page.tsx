@@ -11,6 +11,14 @@ import { Progress } from "@/components/ui/progress"
 import { HomeLink } from "@/components/ui/home-link"
 import { ThemeToggleButton } from "@/components/ui/theme-toggle-button"
 
+const REQUIRED_ENVS = [
+  "POSTGRES_URL",
+  "DATABASE_URL",
+  "JWT_SECRET",
+  "RESEND_API_KEY",
+  "NEXT_PUBLIC_BASE_URL",
+];
+
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,6 +41,16 @@ export default function LoginPage() {
     }
     return () => clearInterval(timer);
   }, [loading]);
+
+  useEffect(() => {
+    async function checkEnv() {
+      const res = await fetch("/api/env-setup/check");
+      if (res.status === 400) {
+        router.replace("/env-setup");
+      }
+    }
+    checkEnv();
+  }, [router]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
